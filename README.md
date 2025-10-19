@@ -47,6 +47,21 @@ Real-time threat analysis displayed after "Show Detailed Network Information":
 - **Bot Detection**: Automated traffic identification
 - **Usage Type**: Residential, business, hosting, cloud, government
 
+### OSINT Intelligence (/intel) - NEW!
+External threat intelligence and exposed services analysis:
+- **Shodan InternetDB** (FREE - no API key required):
+  - Exposed ports and services
+  - Known vulnerabilities (CVEs)
+  - Service banners and tags
+  - Associated hostnames
+- **AbuseIPDB** (optional - free tier):
+  - Abuse confidence score (0-100%)
+  - Attack reports and categories
+  - Blacklist status
+- **Risk Assessment**: Security score with recommendations
+- **Explicit Consent**: Strong warnings & disclaimers
+- All queries to external databases (educational purpose)
+
 ### Design
 - **Liquid Glass UI**: Apple-inspired glassmorphism design
 - **Dark Mode**: Black background with frosted glass panels
