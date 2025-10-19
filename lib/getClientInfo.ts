@@ -21,19 +21,45 @@ export function getIPVersion(ip: string): 'IPv4' | 'IPv6' {
   return ip.includes(':') ? 'IPv6' : 'IPv4';
 }
 
+// Validate IP address
+function isValidIP(ip: string): boolean {
+  // Skip localhost, private IPs, and invalid IPs
+  if (!ip || ip === '0.0.0.0' || ip === '::1' || ip.startsWith('127.') ||
+      ip.startsWith('10.') || ip.startsWith('192.168.') || ip.startsWith('172.')) {
+    return false;
+  }
+  return true;
+}
+
 // Get geolocation data from free API
 export async function getGeoLocation(ip: string): Promise<GeoLocation | null> {
+  // Return null for invalid IPs
+  if (!isValidIP(ip)) {
+    console.log('Skipping geolocation for invalid/private IP:', ip);
+    return null;
+  }
+
   try {
     // Using ipapi.co free tier (1000 requests/day)
     const response = await fetch(`https://ipapi.co/${ip}/json/`, {
       next: { revalidate: 3600 }, // Cache for 1 hour
+      headers: {
+        'User-Agent': 'IPFlix/1.0',
+      },
     });
 
     if (!response.ok) {
-      throw new Error('Geolocation API failed');
+      console.error(`ipapi.co failed with status: ${response.status}`);
+      throw new Error(`Geolocation API failed: ${response.status}`);
     }
 
     const data = await response.json();
+
+    // Check for API error response
+    if (data.error) {
+      console.error('ipapi.co error:', data.reason);
+      throw new Error(data.reason || 'API error');
+    }
 
     return {
       country: data.country_name || 'Unknown',
@@ -47,15 +73,25 @@ export async function getGeoLocation(ip: string): Promise<GeoLocation | null> {
       currencySymbol: data.currency_symbol || '$',
     };
   } catch (error) {
-    console.error('Geolocation error:', error);
+    console.error('ipapi.co geolocation error:', error);
 
-    // Fallback to ip-api.com (45 requests/minute)
+    // Fallback to ip-api.com (45 requests/minute, no HTTPS on free tier)
     try {
-      const fallbackResponse = await fetch(`http://ip-api.com/json/${ip}`, {
+      const fallbackResponse = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,country,countryCode,region,regionName,city,lat,lon,timezone`, {
         next: { revalidate: 3600 },
       });
 
+      if (!fallbackResponse.ok) {
+        throw new Error(`ip-api.com failed: ${fallbackResponse.status}`);
+      }
+
       const fallbackData = await fallbackResponse.json();
+
+      // Check for API error
+      if (fallbackData.status === 'fail') {
+        console.error('ip-api.com error:', fallbackData.message);
+        throw new Error(fallbackData.message || 'API error');
+      }
 
       return {
         country: fallbackData.country || 'Unknown',
@@ -67,7 +103,32 @@ export async function getGeoLocation(ip: string): Promise<GeoLocation | null> {
         timezone: fallbackData.timezone || 'UTC',
       };
     } catch (fallbackError) {
-      console.error('Fallback geolocation error:', fallbackError);
+      console.error('ip-api.com fallback error:', fallbackError);
+
+      // Last resort: Use Vercel's geolocation headers if available
+      try {
+        const headersList = await headers();
+        const country = headersList.get('x-vercel-ip-country');
+        const city = headersList.get('x-vercel-ip-city');
+        const region = headersList.get('x-vercel-ip-country-region');
+        const timezone = headersList.get('x-vercel-ip-timezone');
+
+        if (country) {
+          console.log('Using Vercel geolocation headers');
+          return {
+            country: country || 'Unknown',
+            countryCode: country || 'XX',
+            city: city ? decodeURIComponent(city) : 'Unknown',
+            region: region ? decodeURIComponent(region) : 'Unknown',
+            latitude: 0,
+            longitude: 0,
+            timezone: timezone || 'UTC',
+          };
+        }
+      } catch (headerError) {
+        console.error('Vercel headers error:', headerError);
+      }
+
       return null;
     }
   }
@@ -102,16 +163,37 @@ export async function getBasicClientInfo(): Promise<Partial<ClientInfo>> {
 
 // Get detailed network info (lazy-loaded)
 export async function getDetailedNetworkInfo(ip: string) {
+  // Return placeholder for invalid IPs
+  if (!isValidIP(ip)) {
+    console.log('Skipping network info for invalid/private IP:', ip);
+    return {
+      isp: 'Private Network',
+      org: 'Private Network',
+      asn: 'N/A',
+      hostname: 'localhost',
+    };
+  }
+
   try {
     const response = await fetch(`https://ipapi.co/${ip}/json/`, {
       next: { revalidate: 3600 },
+      headers: {
+        'User-Agent': 'IPFlix/1.0',
+      },
     });
 
     if (!response.ok) {
-      throw new Error('Network info API failed');
+      console.error(`Network info API failed: ${response.status}`);
+      throw new Error(`Network info API failed: ${response.status}`);
     }
 
     const data = await response.json();
+
+    // Check for API error
+    if (data.error) {
+      console.error('Network info API error:', data.reason);
+      throw new Error(data.reason || 'API error');
+    }
 
     return {
       isp: data.org || 'Unknown',
