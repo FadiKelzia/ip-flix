@@ -88,6 +88,26 @@ Proxy: Yes (orange cloud)
 
 ## API Endpoints
 
+### GET /ip
+Returns **only your IP address** in plain text format - perfect for curl commands!
+
+**Usage:**
+```bash
+curl https://ip.tmflix.com/ip
+# Output: 1.2.3.4
+
+# Use in scripts
+MY_IP=$(curl -s https://ip.tmflix.com/ip)
+echo "My IP is: $MY_IP"
+```
+
+**Response:**
+```
+1.2.3.4
+```
+
+---
+
 ### GET /api/ip
 Returns complete IP information as JSON.
 
