@@ -22,6 +22,7 @@ import {
   type AdvancedFingerprint,
 } from '@/lib/privacy/advancedFingerprint';
 import { ThreatIntelligence, ASNDetails } from '@/lib/types';
+import AdvancedAnalysis from './AdvancedAnalysis';
 
 export default function PrivacyAudit() {
   const [consented, setConsented] = useState(false);
@@ -354,6 +355,11 @@ export default function PrivacyAudit() {
               ))}
             </div>
           </GlassCard>
+
+          {/* Advanced Analysis Section */}
+          <div className="mt-6">
+            <AdvancedAnalysis />
+          </div>
 
           {/* Run Again Button */}
           <button

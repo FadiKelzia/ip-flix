@@ -27,7 +27,25 @@ Comprehensive browser privacy analysis with user consent:
 - **Privacy Score**: 0-100 rating with recommendations
 - **Ad Blocker Detection**: Identifies privacy tools
 - **Incognito Detection**: Private browsing analysis
+- **Advanced Analysis** (CreepJS-inspired):
+  - **Trust Score** (0-100): Browser tampering & lie detection
+  - **Bot Score** (0-100): Automation & bot detection
+  - **Advanced Hardware**: GPU fingerprint, battery status
+  - **Speech & Media**: Voice enumeration, device detection
+  - **Behavioral Tracking**: Mouse, keyboard, touch patterns
+  - **API Fingerprinting**: Math precision, error formats
 - All analysis runs **client-side only** - educational purpose
+
+### Threat Intelligence (Main Page)
+Real-time threat analysis displayed after "Show Detailed Network Information":
+- **Threat Score** (0-100): ML-powered risk assessment
+- **Threat Levels**: Safe, Low, Medium, High, Critical
+- **VPN/Proxy/Tor Detection**: Anonymization identification
+- **Hosting Provider**: Cloud & datacenter detection
+- **Company Information**: Organization details & domain
+- **ASN Details**: Complete autonomous system data
+- **Bot Detection**: Automated traffic identification
+- **Usage Type**: Residential, business, hosting, cloud, government
 
 ### Design
 - **Liquid Glass UI**: Apple-inspired glassmorphism design
