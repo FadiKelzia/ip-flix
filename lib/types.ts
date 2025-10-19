@@ -54,3 +54,30 @@ export interface SecurityInfo {
   isTor: boolean;
   threatLevel: string;
 }
+
+export interface ThreatIntelligence {
+  threatScore: number; // 0-100
+  threatLevel: 'Safe' | 'Low' | 'Medium' | 'High' | 'Critical';
+  isVpn: boolean;
+  isProxy: boolean;
+  isTor: boolean;
+  isRelay: boolean;
+  isHosting: boolean;
+  isCloudProvider: boolean;
+  abuseScore: number;
+  isBot: boolean;
+  companyName?: string;
+  companyDomain?: string;
+  companyType?: string;
+  usageType?: string; // residential, business, education, government
+  risks: string[];
+}
+
+export interface ASNDetails {
+  asn: string;
+  name: string;
+  domain: string;
+  route: string;
+  type: string; // isp, hosting, education, government
+  country: string;
+}

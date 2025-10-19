@@ -16,6 +16,12 @@ import {
   calculatePrivacyScore,
   type PrivacyAuditResult,
 } from '@/lib/privacy/browserFingerprint';
+import {
+  getAdvancedFingerprint,
+  initBehavioralTracking,
+  type AdvancedFingerprint,
+} from '@/lib/privacy/advancedFingerprint';
+import { ThreatIntelligence, ASNDetails } from '@/lib/types';
 
 export default function PrivacyAudit() {
   const [consented, setConsented] = useState(false);

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import GlassCard from './GlassCard';
 import InfoRow from './InfoRow';
+import ThreatIntelDisplay from './ThreatIntelDisplay';
 
 interface ClientInfoDisplayProps {
   initialData: {
@@ -130,6 +131,9 @@ export default function ClientInfoDisplay({ initialData }: ClientInfoDisplayProp
               <InfoRow label="Hostname" value={detailedData.hostname} copyable />
             </div>
           </GlassCard>
+
+          {/* Threat Intelligence */}
+          <ThreatIntelDisplay ip={initialData.ip} />
 
           {/* Security Info */}
           {detailedData.security && (
