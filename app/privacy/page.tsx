@@ -1,4 +1,5 @@
 import PrivacyAudit from '@/components/PrivacyAudit';
+import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -43,12 +44,12 @@ export default function PrivacyPage() {
             </p>
           </div>
           <p className="text-white/40 text-sm">
-            <a
+            <Link
               href="/"
               className="text-white/60 hover:text-white transition-colors"
             >
               ← Back to IP Information
-            </a>
+            </Link>
             {' | '}
             Powered by{' '}
             <a

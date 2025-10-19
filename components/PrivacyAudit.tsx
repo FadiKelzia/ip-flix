@@ -146,7 +146,7 @@ export default function PrivacyAudit() {
             </div>
 
             <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-2xl p-4 text-left space-y-2">
-              <h3 className="font-semibold text-yellow-400">⚠️ What We'll Check:</h3>
+              <h3 className="font-semibold text-yellow-400">⚠️ What We&apos;ll Check:</h3>
               <ul className="text-sm text-white/80 space-y-1 list-disc list-inside">
                 <li>Browser fingerprinting (Canvas, WebGL, Audio)</li>
                 <li>Installed fonts and plugins</li>
