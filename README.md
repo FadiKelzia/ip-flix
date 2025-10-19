@@ -18,6 +18,17 @@ Beautiful, high-performance IP address and network information display built wit
 - Network Details
 - Security Information (VPN/Proxy Detection)
 
+### Privacy Audit (/privacy)
+Comprehensive browser privacy analysis with user consent:
+- **Browser Fingerprinting**: Canvas, WebGL, Audio fingerprints
+- **Device Info**: Hardware specs, screen, CPU, memory
+- **Network Privacy**: WebRTC IP leaks, connection details
+- **Tracking Detection**: Cookies, storage, third-party trackers
+- **Privacy Score**: 0-100 rating with recommendations
+- **Ad Blocker Detection**: Identifies privacy tools
+- **Incognito Detection**: Private browsing analysis
+- All analysis runs **client-side only** - educational purpose
+
 ### Design
 - **Liquid Glass UI**: Apple-inspired glassmorphism design
 - **Dark Mode**: Black background with frosted glass panels
